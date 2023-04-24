@@ -53,10 +53,10 @@ const lightbox = new SimpleLightbox(".gallery a", {
 });
 
 // 5. Add evt listener and callback func for lightbox
-galleryEl.addEventListener("click", (event) => {
-  event.preventDefault();
-  if (event.target.tagName !== "IMG") {
-    return;
-  }
-  lightbox.open(event.target.parentNode.href);
-});
+// galleryEl.addEventListener("click", (event) => {
+//   event.preventDefault();
+//   if (event.target.tagName !== "IMG") {
+//     return;
+//   }
+//   lightbox.open(event.target.parentNode.href);
+// });
