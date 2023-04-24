@@ -64,41 +64,41 @@ const imageItemsEl = galleryItems
 // 3. Insert html code in to ul
 galleryEl.insertAdjacentHTML("beforeend", imageItemsEl);
 
-// 4.
-// import * as basicLightbox from "../node_modules/basiclightbox";
-
-let lightbox;
+// 4. Add basicLightbox and settings
 
 galleryEl.addEventListener("click", (event) => {
   event.preventDefault();
 
-  console.log(event);
-
+  // prevent open modal on click off picture
   if (event.target.tagName !== "IMG") {
     return;
   }
 
+  // get href of big img
   const originalImgSrc = event.target.parentNode.href;
-  lightbox = basicLightbox.create(`<img src="${originalImgSrc}">`);
+  // create modal with new href
+  const lightbox = basicLightbox.create(`<img src="${originalImgSrc}">`, {
+    // add evt listener for ESC on open
+    onShow: () => {
+      console.log("Lightbox opened.");
+      window.addEventListener("keydown", CloseModalEl);
+      console.log("Evt listener added");
+    },
+    // remoove evt listener for ESC on close
+    onClose: () => {
+      console.log("Lightbox closed.");
+      window.removeEventListener("keydown", CloseModalEl);
+      console.log("Evt listener remooved");
+    },
+  });
+  // show modal
+  lightbox.show();
 
-    window.addEventListener("keydown", CloseModalEl );
-    console.log("event listener added to window");
-
-    lightbox.show();
-});
-
-
-
-function CloseModalEl(event) {
+  // close modal on ESC
+  function CloseModalEl(event) {
     if (event.key === "Escape") {
-        window.removeEventListener("keydown", CloseModalEl );
-        console.log("event listener remooved from window on ESCAPE");
-        lightbox.close();
+      lightbox.close();
+      console.log("modal closed on ESCAPE");
     }
-}
-
-lightbox.onClose(() => {
-  window.removeEventListener("keydown", CloseModalEl);
-  lightbox.close();
-  console.log("event listener remooved from window on Click");
+  }
 });
